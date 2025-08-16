@@ -1,0 +1,22 @@
+# Maven/Gradle build
+target/
+build/
+
+# IDE files
+.idea/
+*.iml
+*.class
+*.project
+*.classpath
+*.settings/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Spring Boot specifics
+application-*.yml
+application-*.properties
