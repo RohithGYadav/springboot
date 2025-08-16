@@ -15,7 +15,7 @@ import java.time.Duration;
 public class RateLimiterFilter extends OncePerRequestFilter {
 
     private final StringRedisTemplate redis;
-    private static final int LIMIT = 100;      // 100 req per minute
+    private static final int LIMIT = 5;      // 100 req per minute
     private static final Duration WINDOW = Duration.ofMinutes(1);
 
     public RateLimiterFilter(StringRedisTemplate redis) {

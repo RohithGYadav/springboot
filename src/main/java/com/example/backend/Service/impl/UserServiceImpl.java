@@ -1,4 +1,4 @@
-package com.example.backend.Service.impl;
+package com.example.backend.service.impl;
 
 import com.example.backend.dto.*;
 import com.example.backend.entity.User;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
             cacheNames = "users",
             key = "T(java.lang.String).format('p:%s:%s:%s:%s:%s', #page, #size, #sort, #age, #search)"
     )
-    public Page<UserResponse> list(int page, int size, String sort, Integer age, String search) {
+    public PageResponse<UserResponse> list(int page, int size, String sort, Integer age, String search) {
         String[] parts = (sort == null || sort.isBlank()) ? new String[]{"name","asc"} : sort.split(",");
         String sortBy = parts[0];
         Sort.Direction dir = (parts.length > 1 && parts[1].equalsIgnoreCase("desc")) ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -38,13 +38,18 @@ public class UserServiceImpl implements UserService {
                 .and(UserSpecification.search(search));
 
         Page<User> p = repo.findAll(spec, pageable);
-        return p.map(u -> UserResponse.builder()
-                .id(u.getId())
-                .name(u.getName())
-                .age(u.getAge())
-                .email(u.getEmail())
-                .isDeleted(u.getIsDeleted())
-                .build());
+
+        List<UserResponse> content = p.stream()
+                .map(this::toResp)
+                .toList();
+
+        return PageResponse.<UserResponse>builder()
+                .content(content)
+                .page(p.getNumber())
+                .size(p.getSize())
+                .totalElements(p.getTotalElements())
+                .totalPages(p.getTotalPages())
+                .build();
     }
 
     @Override
