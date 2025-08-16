@@ -1,12 +1,13 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.*;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface UserService {
-    Page<UserResponse> list(int page, int size, String sort, Integer age, String search);
+
+    // Return type changed to PageResponse<UserResponse>
+    PageResponse<UserResponse> list(int page, int size, String sort, Integer age, String search);
 
     UserResponse create(UserRequest req, String actor);
 

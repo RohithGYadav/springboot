@@ -2,13 +2,11 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.*;
 import com.example.backend.service.UserService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-
 import java.util.List;
 
 @RestController
@@ -29,14 +27,7 @@ public class UserController {
             @RequestParam(required = false) Integer age,
             @RequestParam(required = false) String search
     ) {
-        Page<UserResponse> p = service.list(page, size, sort, age, search);
-        PageResponse<UserResponse> pr = PageResponse.<UserResponse>builder()
-                .content(p.getContent())
-                .page(p.getNumber())
-                .size(p.getSize())
-                .totalElements(p.getTotalElements())
-                .totalPages(p.getTotalPages())
-                .build();
+        PageResponse<UserResponse> pr = service.list(page, size, sort, age, search);
         return ResponseEntity.ok(ApiResponse.ok(pr));
     }
 
