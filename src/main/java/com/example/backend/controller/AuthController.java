@@ -19,7 +19,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
-        // Hardcoded validation
+        System.out.println("Login attempt:");
+        System.out.println("Username: " + request.getUsername());
+        System.out.println("Password: " + request.getPassword());
+
         if ("admin".equals(request.getUsername()) && "password".equals(request.getPassword())) {
             String token = jwtUtil.generateToken(request.getUsername());
             LoginResponse loginResponse = new LoginResponse(token);
@@ -27,12 +30,17 @@ public class AuthController {
             ApiResponse<LoginResponse> response =
                     new ApiResponse<>(true, "OK", loginResponse);
 
+            System.out.println("Login success. Token: " + token);
+
             return ResponseEntity.ok(response);
         }
+
+        System.out.println("Login failed: Invalid credentials");
 
         ApiResponse<LoginResponse> errorResponse =
                 new ApiResponse<>(false, "Invalid username or password", null);
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
 }
