@@ -1,8 +1,8 @@
-package com.example.backend.service.impl;
+package com.example.backend.Service.impl;
 
 import com.example.backend.dto.*;
 import com.example.backend.entity.User;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.Repository.UserRepository;
 import com.example.backend.service.UserService;
 import com.example.backend.specification.UserSpecification;
 import lombok.RequiredArgsConstructor;
